@@ -23,7 +23,7 @@ func teller() {
 		select {
 		case amount := <-deposits:
 			balance += amount
-		case balances <- balance:
+		case balances <- balance: // 亮点：等到上面的deposits通道清空后再跑此处[main主程序结束->for循环结束]
 		}
 	}
 }
