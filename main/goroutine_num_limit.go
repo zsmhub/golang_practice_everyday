@@ -7,6 +7,7 @@ import (
 )
 
 // 使用 chan + sync.WaitGroup 控制 goroutine 并发数
+
 var wg = sync.WaitGroup{}
 
 func main() {

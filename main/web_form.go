@@ -9,6 +9,7 @@ import (
 )
 
 // 简单web页面开发
+
 const form = `
 	<html><body>
 		<form action="#" method="post" name="bar">
