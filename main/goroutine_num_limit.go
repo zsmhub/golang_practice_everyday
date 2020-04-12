@@ -7,6 +7,8 @@ import (
 )
 
 // 使用 chan + sync.WaitGroup 控制 goroutine 并发数
+// 为什么要限制协程数量? golang的go关键字并发实在是太简单，但是带来的问题是由于硬件和网络状况的限制，
+// 不受控制的增加协程是非常危险的做法，甚至有可能搞垮数据库之类的应用!
 
 var wg = sync.WaitGroup{}
 
