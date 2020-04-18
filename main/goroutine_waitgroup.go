@@ -20,6 +20,8 @@ func main() {
 			condition = false
 		}
 		go func(c bool) {
+			defer wg.Done()
+
 			if c {
 				ret := foreverCached()
 				fmt.Println(ret)
@@ -27,7 +29,6 @@ func main() {
 				ret := getDbData()
 				fmt.Println(ret)
 			}
-			wg.Done()
 		}(condition)
 	}
 
