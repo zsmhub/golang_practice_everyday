@@ -17,7 +17,7 @@ func main() {
 
 	for {
 		fmt.Print("-> ")
-		text, _ := reader.ReadString('\n')
+		text, _ := reader.ReadString('\n') // 注意此处使用单引号
 
 		// 如果你想让这个程序在 Windows 系统下运行，那么你必须将代码的 text 替换为 text = strings.Replace(text,"\r\n","",-1)
 		// 因为 Windowss 系统使用的行结束符和 unix 系统是不同的。
@@ -28,7 +28,6 @@ func main() {
 		} else {
 			fmt.Println("server: ", text)
 		}
-
 	}
 
 }
