@@ -16,10 +16,10 @@ type Client struct {
 }
 
 // 定义全局 map 存储在线用户 key:ip+port, value: Client
-var onlineMap map[string]Client
+var onlineMap = make(map[string]Client)
 
-// 定义全局 channel 处理消息
-var message = make(chan string)
+// 定义全局 channel 处理消息【带缓冲，可以提高消息处理效率】
+var message = make(chan string, 20)
 
 // 推送消息到客户端
 func WriteMsgToClient(clnt Client, conn net.Conn) {
@@ -116,9 +116,6 @@ func main() {
 		return
 	}
 	defer listener.Close()
-
-	// map 初始化后才能赋值
-	onlineMap = make(map[string]Client)
 
 	// 创建 goroutine 处理消息
 	go Manager()
