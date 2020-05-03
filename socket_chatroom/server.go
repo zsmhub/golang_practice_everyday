@@ -104,7 +104,7 @@ func HandleConnect(conn net.Conn) {
     for {
         select {
         case <-hasData:
-        case <-time.After(10 * time.Second):
+        case <-time.After(60 * time.Second):
             delete(onlineMap, netAddr)
             message <- MakeMsg(clnt, "time out leave")
             conn.Write([]byte("timeout")) // 通知当前用户断开连接
