@@ -1,42 +1,42 @@
 package main
 
 import (
-	"fmt"
-	"sync"
-	"time"
+    "fmt"
+    "sync"
+    "time"
 )
 
 // 多服务器模式-使用redis控制共享变量
 
 // 单服务器模式-方案一：使用互斥锁或读写锁来处理goroutine的竞争条件
 func main() {
-	startTime := time.Now().UnixNano()
+    startTime := time.Now().UnixNano()
 
-	nums := 0
-	total := 0
+    nums := 0
+    total := 0
 
-	wg := sync.WaitGroup{}
-	wg.Add(100000)
+    wg := sync.WaitGroup{}
+    wg.Add(100000)
 
-	var mu sync.Mutex
+    var mu sync.Mutex
 
-	for i := 1; i <= 100000; i++ {
-		nums += i
+    for i := 1; i <= 100000; i++ {
+        nums += i
 
-		go func(i int) {
-			mu.Lock()
-			total += i
-			mu.Unlock()
-			wg.Done()
-		}(i)
-	}
+        go func(i int) {
+            mu.Lock()
+            total += i
+            mu.Unlock()
+            wg.Done()
+        }(i)
+    }
 
-	wg.Wait()
+    wg.Wait()
 
-	fmt.Printf("total:%d sum %d\n", total, nums)
+    fmt.Printf("total:%d sum %d\n", total, nums)
 
-	endTime := time.Now().UnixNano()
-	fmt.Println("耗时(纳秒)：", endTime-startTime)
+    endTime := time.Now().UnixNano()
+    fmt.Println("耗时(纳秒)：", endTime-startTime)
 }
 
 // 单服务器模式-方案二：相比方案一，效率低
