@@ -1,7 +1,7 @@
+# github.com/golang/snappy v0.0.1
+github.com/golang/snappy
 # github.com/json-iterator/go v1.1.9
 ## explicit
-github.com/json-iterator/go
-# github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421
-github.com/modern-go/concurrent
-# github.com/modern-go/reflect2 v0.0.0-20180701023420-4b7aa43c6742
-github.com/modern-go/reflect2
+# github.com/nsqio/go-nsq v1.0.8
+## explicit
+github.com/nsqio/go-nsq
