@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+    "fmt"
+)
 
 // 切片注意事项：两个切片共享同一个底层数组。如果一个切片修改了该底层数组的共享部分，另一个切片也能感知到，运行下面的代码：
 func main() {
@@ -34,4 +36,25 @@ func main() {
     fmt.Println(slice2)
     fmt.Println(cap(slice2)) // slice 容量
     fmt.Println(len(slice2)) // slice 长度
+
+    // 切片深拷贝示例
+    test()
+}
+
+// 切片深拷贝示例
+func test() {
+    a := make([]int, 10)
+    for i := 0; i < 10; i++ {
+        a[i] = i
+    }
+    b := a[1:4]
+    b[1] = 22 // 浅拷贝：值变化会影响到切片a
+
+    var c = make([]int, 3)
+    copy(c, b)
+    c[1] = 222 // 深拷贝: 值变化不会影响到切片a、b
+
+    fmt.Println(a)
+    fmt.Println(b)
+    fmt.Println(c)
 }
