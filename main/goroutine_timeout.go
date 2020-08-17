@@ -5,7 +5,7 @@ import (
     "time"
 )
 
-// goroutine 超时控制
+// goroutine 超时控制，todo: 需加上超时通知协程取消执行的相关代码
 
 func Run(task_id, sleeptime, timeout int, ch chan string) {
     ch_run := make(chan string)
