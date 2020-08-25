@@ -32,8 +32,7 @@ func main() {
     go get_sum_of_divisible(limit, divider3, &sum, &wg)
     go get_sum_of_divisible(limit, divider5, &sum, &wg)
     go get_sum_of_divisible(limit, divider15, &sum, &wg)
-
-    wg.Wait()
+    wg.Wait()  // 此处阻塞，等所有协程跑完才会执行下面的代码
 
     sum3, ok := sum.Load(divider3)
     if !ok {
