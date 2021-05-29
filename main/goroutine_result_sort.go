@@ -8,7 +8,6 @@ import (
 // 按序返回多个 goroutine 的结果集
 
 func run(task_id int, sleeptime int, ch chan string) {
-
     time.Sleep(time.Duration(sleeptime) * time.Second)
     ch <- fmt.Sprintf("task id %d , sleep %d second", task_id, sleeptime)
     return
