@@ -122,7 +122,7 @@ func Manager() {
 
         // 一旦执行到这里，说明 message 中有数据了，解除阻塞，遍历 map
         for _, clnt := range onlineMap {
-            clnt.Messages <- msg // 把从 Message 通道中读到的数据，写到 client 的 C 通道中
+            clnt.Messages <- msg // 把从 Message 通道中读到的数据，写到 client 的 Messages 通道中
         }
     }
 }

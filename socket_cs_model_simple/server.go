@@ -2,6 +2,7 @@ package main
 
 import (
     "fmt"
+    "io"
     "net"
 )
 
@@ -29,11 +30,17 @@ func main() {
     fmt.Println("客户端与服务器连接建立成功...")
 
     // 接受客户端数据
-    buf := make([]byte, 1024) // 创建1024大小的缓冲区，用于read
-    n, err := conn.Read(buf)
-    if err != nil {
-        fmt.Println("read err:", err)
-        return
+    buf := make([]byte, 2) // 创建小的缓冲区则需要循环读取数据，用于read
+    for {
+        n, err := conn.Read(buf)
+        if err != nil {
+            if err == io.EOF {
+                fmt.Println("服务器读取结束")
+                return
+            }
+            fmt.Println("read err:", err)
+            return
+        }
+        fmt.Println("服务器读到:", string(buf[:n])) // 读多少，打印多少
     }
-    fmt.Println("服务器读到:", string(buf[:n])) // 读多少，打印多少
 }

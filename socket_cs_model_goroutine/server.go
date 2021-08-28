@@ -9,7 +9,7 @@ import (
 // 并发C/S模型通讯
 func main() {
     // 创建监听
-    listener, err := net.Listen("tcp", ":8000") // tcp 不能使用大写
+    listener, err := net.Listen("tcp", ":50000") // tcp 不能使用大写
     if err != nil {
         fmt.Println("listen err:", err)
         return
@@ -40,7 +40,7 @@ func HandleConn(conn net.Conn) {
     fmt.Println(addr, " connect successful")
 
     for {
-        buf := make([]byte, 2048) // 创建1024大小的缓冲区，用于read
+        buf := make([]byte, 2048) // 创建2k大小的缓冲区，用于read
 
         // 读取用户数据
         n, err := conn.Read(buf)
@@ -52,7 +52,7 @@ func HandleConn(conn net.Conn) {
         fmt.Printf("[%s]: %s\n", addr, string(buf[:n]))
 
         // 把数据转换为大写，再发送给客户端
-        conn.Write([]byte(strings.ToUpper(string(buf))))
+        conn.Write([]byte(strings.ToUpper(string(buf[:n]))))
 
         // 连接中断
         if "exit" == string(buf[:n]) {

@@ -11,7 +11,7 @@ import (
 // 并发C/S模型通讯
 func main() {
     // 主动发起连接请求
-    conn, err := net.Dial("tcp", "127.0.0.1:8000")
+    conn, err := net.Dial("tcp", "127.0.0.1:50000")
     if err != nil {
         fmt.Println("Dial err:", err)
         return
