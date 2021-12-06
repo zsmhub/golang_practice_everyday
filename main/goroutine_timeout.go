@@ -5,10 +5,10 @@ import (
     "time"
 )
 
-// goroutine 超时控制，todo: 需加上超时通知协程取消执行的相关代码『使用 context.WithTimeout() 方式写超时方案』
+// goroutine 超时控制『注意 goroutine 泄漏问题』
 
 func Run(task_id, sleeptime, timeout int, ch chan string) {
-    ch_run := make(chan string)
+    ch_run := make(chan string, 1) // 设置缓存区，解决 goroutine 泄漏问题（没有数据传输推荐使用空结构体 struct{}，空结构体占用内存为 0）
     go logic(task_id, sleeptime, ch_run)
     select {
     case re := <-ch_run:
@@ -20,9 +20,8 @@ func Run(task_id, sleeptime, timeout int, ch chan string) {
 }
 
 func logic(task_id, sleeptime int, ch chan string) {
-
     time.Sleep(time.Duration(sleeptime) * time.Second)
-    ch <- fmt.Sprintf("task id %d , sleep %d second", task_id, sleeptime)
+    ch <- fmt.Sprintf("task id %d , sleep %d second", task_id, sleeptime) // 导致 goroutine 泄露：外层导致提前退出，由于没有接收者且无缓存区，发送者(sender)会一直阻塞，导致协程不能退出。
     return
 }
 
