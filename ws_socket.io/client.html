@@ -1,0 +1,88 @@
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>socket.io client</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.4.0/socket.io.js"></script>
+</head>
+<body>
+<h1> socket.io 消息发送测试</h1>
+<input id="sendTxt" type="text"/>
+<button id="sendBtn">发送</button>
+<div id="recv"></div>
+<script type="text/javascript">
+
+    var socket = io("ws://127.0.0.1:8000", {
+        reconnectionDelayMax: 10000,
+        transports: ['websocket'] // eg: [ "websocket", "polling" ]
+    });
+
+    // 服务端socket多路复用
+    var socketChat = io("ws://127.0.0.1:8000/chat", {
+        reconnectionDelayMax: 10000,
+        transports: ['websocket'] // eg: [ "websocket", "polling" ]
+    })
+
+    // 把接收的数据显示到界面
+    function showMessage(str, type) {
+        var div = document.createElement('div');
+        div.innerHTML = str;
+        if (type === "blue" || type === "red" || type === "green") {
+            div.style.color = type;
+        }
+        document.body.appendChild(div)
+    }
+
+    // 点击之后发送
+    document.getElementById("sendBtn").onclick = function () {
+        var txt = document.getElementById("sendTxt").value;
+        if (txt === "") { // 文本不为空发送
+            return
+        }
+
+        // 客户端发事件类型
+        if (txt === "ack") { // 关闭连接事件，并处理服务端返回的形影只
+            socket.emit('ack', txt, function (result) {
+                showMessage(result, 'green')
+            });
+        } else if (txt === "close") { // 关闭socket连接事件
+            socket.emit('close', txt, function (result) {
+                console.log(result)
+                if (result === "close ok") {
+                    socket.disconnect() // 客户端关闭socket连接
+                    socketChat.disconnect() // 客户端关闭socket连接
+                    showMessage(result, 'blue')
+                }
+            });
+        } else { // 发消息事件
+            socket.emit('message', txt)
+
+            socketChat.emit('chat_msg', txt)
+        }
+    }
+
+    socket.on('connect', function () {
+        console.log('socket connect:session_id=', socket.id);
+        showMessage("连接成功", 'red')
+    });
+
+    socket.on('disconnect', function () {
+        showMessage("连接失败", 'red')
+    });
+
+    socket.on('error', function () {
+        showMessage("连接错误", 'red')
+    });
+
+    socket.on('reply_message', function (data) {
+        showMessage(data, 'blue')
+    })
+
+    socketChat.on('reply_message', function (data) {
+        showMessage(data, 'blue')
+    })
+
+</script>
+</body>
+</html>
