@@ -62,10 +62,10 @@ func main() {
 func registerEvent(server *socketio.Server) {
     server.OnEvent("/", "message", func(s socketio.Conn, msg string) {
         log.Println("message:", msg)
-        s.Emit("reply_message", "server_reply@"+msg)
+        s.Emit("reply_message", "server_reply@"+msg) // 推送事件给客户端
     })
 
-    // 返回响应值给客户端
+    // 收到客户端事件后，直接返回响应值给客户端该事件
     server.OnEvent("/", "ack", func(s socketio.Conn, msg string) string {
         log.Println("ack:", msg)
         return "server get ack signal, ack=" + time.Now().Format("2006-01-02 15:04:05")
