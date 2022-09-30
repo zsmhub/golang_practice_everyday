@@ -7,7 +7,7 @@ require (
 	github.com/googollee/go-socket.io v1.6.2
 	github.com/gorilla/websocket v1.5.0
 	github.com/judwhite/go-svc v1.2.1
-	github.com/labstack/echo/v4 v4.1.16
+	github.com/labstack/echo/v4 v4.9.0
 	github.com/marusama/cyclicbarrier v1.1.0
 	github.com/nsqio/go-nsq v1.0.8
 	go.etcd.io/etcd/client/v3 v3.5.4
