@@ -5,7 +5,7 @@ go 1.14
 require (
 	github.com/google/uuid v1.1.2
 	github.com/googollee/go-socket.io v1.6.2
-	github.com/gorilla/websocket v1.5.0
+	github.com/gorilla/websocket v1.5.3
 	github.com/judwhite/go-svc v1.2.1
 	github.com/labstack/echo/v4 v4.1.16
 	github.com/marusama/cyclicbarrier v1.1.0
